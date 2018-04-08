@@ -69,7 +69,7 @@ export default {
         eventColor = this.eventColor[date]
       }
       return this.$createElement('div', {
-        staticClass: 'date-picker-table__event',
+        staticClass: 'v-date-picker-table__event',
         class: this.addBackgroundColorClassChecks({}, eventColor || this.color)
       })
     },
@@ -124,7 +124,7 @@ export default {
   },
 
   render () {
-    return this.genTable('date-picker-table date-picker-table--date', [
+    return this.genTable('v-date-picker-table v-date-picker-table--date', [
       this.genTHead(),
       this.genTBody()
     ])
