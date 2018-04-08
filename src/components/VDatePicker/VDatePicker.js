@@ -1,3 +1,4 @@
+import DateInterface from './util/DateInterface'
 // Components
 import VDatePickerTitle from './VDatePickerTitle'
 import VDatePickerHeader from './VDatePickerHeader'
@@ -18,7 +19,9 @@ export default {
   mixins: [Picker],
 
   data () {
-    const now = new Date()
+    // const now = new Date()
+    const now = new DateInterface(undefined, this.locale)
+    // console.log('now', now)
     return {
       activePicker: this.type.toUpperCase(),
       defaultColor: 'accent',

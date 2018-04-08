@@ -1,3 +1,4 @@
+import DateInterface from './util/DateInterface'
 import '../../stylus/components/_date-picker-years.styl'
 
 // Mixins
@@ -57,7 +58,7 @@ export default {
     },
     genYearItems () {
       const children = []
-      const selectedYear = this.value ? parseInt(this.value, 10) : new Date().getFullYear()
+      const selectedYear = this.value ? parseInt(this.value, 10) : new DateInterface(undefined, this.locale).getFullYear()
       const maxYear = this.max ? parseInt(this.max, 10) : (selectedYear + 100)
       const minYear = Math.min(maxYear, this.min ? parseInt(this.min, 10) : (selectedYear - 100))
 

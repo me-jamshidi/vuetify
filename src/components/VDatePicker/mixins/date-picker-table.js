@@ -79,6 +79,7 @@ export default {
       return classes
     },
     genButton (value, isFloating) {
+      // console.warn(value)
       const isDisabled = !isDateAllowed(value, this.min, this.max, this.allowedDates)
 
       return this.$createElement('button', {

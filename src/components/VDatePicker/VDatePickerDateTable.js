@@ -1,3 +1,4 @@
+import DateInterface from './util/DateInterface'
 // Mixins
 import Colorable from '../../mixins/colorable'
 import DatePickerTable from './mixins/date-picker-table'
@@ -44,7 +45,8 @@ export default {
       const first = parseInt(this.firstDayOfWeek, 10)
 
       return this.weekdayFormatter
-        ? createRange(7).map(i => this.weekdayFormatter(`2017-01-${first + i + 15}`)) // 2017-01-15 is Sunday
+        ? (this.locale === 'fa-ir' ? createRange(7).map(i => this.weekdayFormatter(`1395-10-${first + i + 19}`)) // 1395-10-19 is Sunday
+        : createRange(7).map(i => this.weekdayFormatter(`2017-01-${first + i + 15}`))) // 2017-01-15 is Sunday
         : createRange(7).map(i => ['S', 'M', 'T', 'W', 'T', 'F', 'S'][(i + first) % 7])
     }
   },
@@ -73,7 +75,8 @@ export default {
     },
     // Returns number of the days from the firstDayOfWeek to the first day of the current month
     weekDaysBeforeFirstDayOfTheMonth () {
-      const firstDayOfTheMonth = new Date(`${this.displayedYear}-${pad(this.displayedMonth + 1)}-01T00:00:00+00:00`)
+      // const firstDayOfTheMonth = new Date(`${this.displayedYear}-${pad(this.displayedMonth + 1)}-01T00:00:00+00:00`)
+      const firstDayOfTheMonth = new DateInterface(`${this.displayedYear}-${pad(this.displayedMonth + 1)}-01`, this.locale)      
       const weekDay = firstDayOfTheMonth.getUTCDay()
       return (weekDay - parseInt(this.firstDayOfWeek) + 7) % 7
     },
@@ -88,7 +91,9 @@ export default {
     },
     genTBody () {
       const children = []
-      const daysInMonth = new Date(this.displayedYear, this.displayedMonth + 1, 0).getDate()
+      // const daysInMonth = new Date(this.displayedYear, this.displayedMonth + 1, 0).getDate()
+      const daysInMonth = new DateInterface(`${this.displayedYear}-${pad(this.displayedMonth + 1)}-0`, this.locale).daysInMonth()
+      // console.info('days in month',daysInMonth, this.displayedMonth)
       let rows = []
       let day = this.weekDaysBeforeFirstDayOfTheMonth()
 

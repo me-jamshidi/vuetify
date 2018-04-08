@@ -1,3 +1,4 @@
+import DateInterface from './DateInterface'
 import pad from './pad'
 
 export default (locale, options, { start, length } = { start: 0, length: 0 }) => {
@@ -7,8 +8,28 @@ export default (locale, options, { start, length } = { start: 0, length: 0 }) =>
   }
 
   try {
+    // console.info(locale)
     const intlFormatter = new Intl.DateTimeFormat(locale || undefined, options)
-    return dateString => intlFormatter.format(new Date(`${makeIsoString(dateString)}T00:00:00+00:00`))
+    if (locale === 'fa-ir') {
+      return dateString => {
+        let isodate = makeIsoString(dateString)
+        let pdate = new DateInterface(`${isodate}T00:00:00+00:00`)
+        // pdate.addDays(1)
+        let gdate = pdate.toDate()
+        let formatted = intlFormatter.format(gdate)
+        // console.info(`isodate : ${isodate},pdate : ${pdate.toString()},gdate : ${gdate.toString()},formatted : ${formatted}`)
+        return formatted
+      }
+    } else {
+      return dateString => {
+        // console.log(options)
+        let isodate = makeIsoString(dateString)
+        let gdate = new Date(`${isodate}T00:00:00+00:00`)
+        let formatted = intlFormatter.format(gdate)
+        // console.info(`isodate : ${isodate},gdate : ${gdate.toString()},formatted : ${formatted}`)
+        return formatted
+      }
+    }
   } catch (e) {
     return (start || length) ? dateString => makeIsoString(dateString).substr(start, length) : null
   }
